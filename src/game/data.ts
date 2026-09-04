@@ -17,7 +17,7 @@ export const FOODS: Food[] = [
   { id: 'fried-rice', name: '黄金蛋炒饭', emoji: '🍳', rarity: 'N' },
   { id: 'xiaomian', name: '重庆小面', emoji: '🌶️', rarity: 'N' },
   { id: 'dumpling', name: '水饺蘸醋', emoji: '🥟', rarity: 'N' },
-  { id: 'shouzhuabing', name: '手抓饼加蛋', emoji: '🫓', rarity: 'N' },
+  { id: 'shouzhuabing', name: '手抓饼加蛋', emoji: '🌯', rarity: 'N' },
   { id: 'gaiziaofan', name: '番茄盖浇饭', emoji: '🍚', rarity: 'N' },
 
   // ── R · 小确幸 ────────────────────────────
