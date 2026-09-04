@@ -15,6 +15,12 @@ pnpm test       # 单元测试（概率 / 保底 / 运势组装）
 pnpm build      # 构建（产物在 dist/，可静态部署）
 ```
 
+## 在线访问
+
+推送到 `master` 会自动触发 GitHub Actions（测试 → 构建 → 部署）：
+
+**https://ikaros-521.github.io/game_demo/**
+
 ## 结构
 
 ```
