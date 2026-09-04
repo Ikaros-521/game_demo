@@ -17,7 +17,9 @@
 
 推送到 `main` 自动触发 GitHub Actions（测试 → 构建 → 部署）：
 
-**https://ikaros-521.github.io/game_demo/**
+**https://game.ikaros.dpdns.org/**（自定义域名，主入口）
+
+<https://ikaros-521.github.io/game_demo/> 会 301 跳转到上面的域名。
 
 ## 本地运行
 
