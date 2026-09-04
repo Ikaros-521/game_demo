@@ -1,42 +1,50 @@
-# 干饭运势签 🍚
+# 干饭游戏大全 🍚
 
-「今天吃什么」做成日式抽卡：三张干饭签凭直觉翻一张，翻开今日干饭运势卡——吃什么、运势几星、宜什么忌什么，可保存成图片分享。
+「今天吃什么」小游戏合集——玩一局，答案就有了。纯前端、纯本地运行、**零外部素材**（全部 emoji + CSS 代码绘制），PC / 手机双端自适应。
 
-- 纯前端、纯本地抽签、**零外部素材**（全部 emoji + CSS 代码绘制）
-- 稀有度：N 55% / R 30% / SR 12% / SSR 3%（含保底：三张全 N 强制升级一张 R+）
-- PC / 手机双端自适应（手机优先，PC 居中画幅）
+## 四款玩法
 
-## 运行
+| 游戏 | 路由 | 玩法 |
+|---|---|---|
+| 🎴 干饭运势签 | `#/fortune` | 三选一翻牌抽卡，N/R/SR/SSR 稀有度 + 全 N 保底，SSR 全屏爆发特效 |
+| ⚡ 极速淘汰赛 | `#/elimination` | 10 秒点掉不想吃的，剩下什么吃什么；剩多个触发轮盘决胜，全删光有特别结局 |
+| 🎭 干饭人格测试 | `#/personality` | 8 道二选一（4 维度），解锁 16 种干饭人设卡（本命/天赋/弱点/饭搭子） |
+| 🥣 天降干饭 | `#/catch` | 30 秒接食物街机：鼠标/方向键/触控移动碗，掉落按稀有度加权，接最多的是什么今天就吃什么 |
+
+每局结果都可一键保存 PNG 分享。
+
+## 在线访问
+
+推送到 `main` 自动触发 GitHub Actions（测试 → 构建 → 部署）：
+
+**https://ikaros-521.github.io/game_demo/**
+
+## 本地运行
 
 ```bash
 pnpm install
 pnpm dev        # 开发
-pnpm test       # 单元测试（概率 / 保底 / 运势组装）
-pnpm build      # 构建（产物在 dist/，可静态部署）
+pnpm test       # 单元测试（30 个：概率/保底/结算/人格映射等纯逻辑）
+pnpm build      # 构建（产物 dist/，可静态部署）
 ```
-
-## 在线访问
-
-推送到 `master` 会自动触发 GitHub Actions（测试 → 构建 → 部署）：
-
-**https://ikaros-521.github.io/game_demo/**
 
 ## 结构
 
 ```
 src/
-├── game/            # 纯逻辑层（可单测）
-│   ├── data.ts      #   食物库 + 宜/忌/点评文案库
-│   ├── rarity.ts    #   稀有度概率 + 三张签生成 + 保底
-│   ├── fortune.ts   #   运势组装（星级/宜忌/点评）
-│   └── useDraw.ts   #   状态机 hook: idle→dealing→picking→revealing→result
-└── components/      # 展示层
-    ├── StartScreen / CardTable / FortuneCard
-    ├── ResultPanel  #   运势卡 + 保存图片（html-to-image）
-    ├── SSRBurst     #   SSR 全屏特效
-    └── StarField    #   星光 + 樱花背景（CSS 动画）
+├── App.tsx              # HashRouter 路由（Pages 子路径免配置）
+├── pages/Hub.tsx        # 游戏大全首页
+├── components/          # 公共：StarField 背景 / GameShell 页壳
+├── lib/useSaveImage.ts  # 公共：结果卡保存 PNG
+└── games/               # 每款游戏 = 纯逻辑(game/) + UI(index.tsx) + 单测
+    ├── fortune/         #   A 运势签（data/rarity/fortune/useDraw + 5 个组件）
+    ├── elimination/     #   B 极速淘汰赛
+    ├── personality/     #   C 干饭人格测试（16 人设数据）
+    └── catch/           #   D 天降干饭（rAF 物理循环）
 ```
 
+约定：游戏规则逻辑全部收敛在各游戏 `game.ts` 纯函数（可注入 rand 做确定性单测），组件层只做展示与动画编排。
+
 - 设计文档：`docs/specs/2026-09-04-ganfan-fortune-design.md`
-- 开发复盘（AI 做页游遇到的问题记录）：`docs/dev-log.md`
+- 开发复盘（AI 做页游的问题记录）：`docs/dev-log.md`
 - 验收截图：`docs/shots/`

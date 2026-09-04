@@ -1,6 +1,5 @@
-import { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { toPng } from 'html-to-image'
+import { useSaveImage } from '../../../lib/useSaveImage'
 import type { Fortune } from '../game/fortune'
 import { RARITY_META } from '../game/rarity'
 
@@ -17,30 +16,10 @@ function today(): string {
 }
 
 export default function ResultPanel({ fortune, drawCount, onAgain }: ResultPanelProps) {
-  const cardRef = useRef<HTMLDivElement>(null)
-  const [saveState, setSaveState] = useState<'idle' | 'saving' | 'done' | 'error'>('idle')
+  const { targetRef: cardRef, saveState, save: saveImage } = useSaveImage(
+    `干饭运势签-${fortune.food.name}.png`,
+  )
   const meta = RARITY_META[fortune.food.rarity]
-
-  const saveImage = async () => {
-    if (!cardRef.current || saveState === 'saving') return
-    setSaveState('saving')
-    try {
-      const dataUrl = await toPng(cardRef.current, {
-        pixelRatio: 2,
-        backgroundColor: '#0b1026',
-        filter: (node) => !(node instanceof HTMLElement && node.dataset.noExport === 'true'),
-      })
-      const a = document.createElement('a')
-      a.href = dataUrl
-      a.download = `干饭运势签-${fortune.food.name}.png`
-      a.click()
-      setSaveState('done')
-      setTimeout(() => setSaveState('idle'), 2000)
-    } catch {
-      setSaveState('error')
-      setTimeout(() => setSaveState('idle'), 2000)
-    }
-  }
 
   return (
     <motion.div
