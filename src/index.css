@@ -1,0 +1,166 @@
+@import "tailwindcss";
+
+@theme {
+  /* 夜空底色（日式抽卡氛围） */
+  --color-night-950: #05081a;
+  --color-night-900: #070b1d;
+  --color-night-800: #0b1026;
+  --color-night-700: #131a3a;
+  --color-night-600: #1c2550;
+
+  /* 金色系（签文/描边） */
+  --color-gold-200: #fff3cf;
+  --color-gold-300: #ffe29a;
+  --color-gold-400: #ffd166;
+  --color-gold-500: #ffc53d;
+  --color-gold-600: #d9a410;
+
+  --font-display: Georgia, "Times New Roman", "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: var(--color-night-950);
+  color: #e8e6f2;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+}
+
+/* ── 星光背景 ─────────────────────────────── */
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.15);
+  }
+}
+
+.star {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(circle, #fff 0%, #ffe9b0 40%, transparent 70%);
+  animation: twinkle var(--dur, 3s) ease-in-out var(--delay, 0s) infinite;
+}
+
+@keyframes petal-fall {
+  0% {
+    transform: translate3d(0, -10vh, 0) rotate(0deg);
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate3d(var(--drift, 4vw), 108vh, 0) rotate(320deg);
+    opacity: 0;
+  }
+}
+
+.petal {
+  position: absolute;
+  top: 0;
+  animation: petal-fall var(--dur, 12s) linear var(--delay, 0s) infinite;
+  will-change: transform;
+}
+
+/* ── 卡背流光 ─────────────────────────────── */
+@keyframes back-shine {
+  0% {
+    transform: translateX(-150%) skewX(-20deg);
+  }
+  55%,
+  100% {
+    transform: translateX(250%) skewX(-20deg);
+  }
+}
+
+.back-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 45%;
+  background: linear-gradient(90deg, transparent, rgba(255, 240, 200, 0.22), transparent);
+  animation: back-shine 2.6s ease-in-out infinite;
+}
+
+/* ── SSR 彩虹边框 ─────────────────────────── */
+@keyframes hue-cycle {
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+
+.rainbow-ring {
+  background: linear-gradient(160deg, #ff5ec4, #ffe25e, #7a5eff, #5effd6, #ff5ec4);
+  animation: hue-cycle 3.2s linear infinite;
+}
+
+@keyframes burst-ring {
+  0% {
+    transform: scale(0.2);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+.burst-ring {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 42vmin;
+  height: 42vmin;
+  border-radius: 9999px;
+  border: 3px solid rgba(255, 220, 120, 0.9);
+  box-shadow: 0 0 60px rgba(255, 200, 90, 0.55), inset 0 0 40px rgba(255, 220, 150, 0.4);
+  animation: burst-ring 1.1s ease-out forwards;
+}
+
+/* ── 按钮光晕脉冲 ─────────────────────────── */
+@keyframes glow-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 18px 2px rgba(255, 197, 61, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 34px 6px rgba(255, 197, 61, 0.6);
+  }
+}
+
+.glow-pulse {
+  animation: glow-pulse 2.2s ease-in-out infinite;
+}
+
+/* 星级符号 */
+.star-glyph {
+  filter: drop-shadow(0 0 4px rgba(255, 210, 90, 0.65));
+}
+
+/* 结果卡纸面质感 */
+.paper {
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(255, 240, 200, 0.09), transparent 55%),
+    linear-gradient(180deg, #10173a 0%, #0b1026 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .star,
+  .petal,
+  .back-shine::after,
+  .glow-pulse,
+  .rainbow-ring {
+    animation: none;
+  }
+}
